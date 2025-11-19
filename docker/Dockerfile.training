@@ -1,0 +1,48 @@
+# Training Dockerfile
+# Used for training jobs; runs on GPU VM or on-prem GPU
+
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+
+# Prevent interactive prompts during build
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python 3.11 and dependencies
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-dev \
+    python3-pip \
+    git \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.11 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+
+# Upgrade pip
+RUN python -m pip install --upgrade pip
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements first (for caching)
+COPY requirements-training.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements-training.txt
+
+# Copy training scripts
+COPY train/ ./train/
+COPY backend/app/config.py ./backend/app/config.py
+COPY backend/app/__init__.py ./backend/app/__init__.py
+
+# Create directories for data and artifacts
+RUN mkdir -p /app/data/raw /app/data/processed /app/artifacts/lora_sft /app/artifacts/lora_dpo /app/cache
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV TRANSFORMERS_CACHE=/app/cache/huggingface
+ENV HF_HOME=/app/cache/huggingface
+
+# Default command (can be overridden)
+CMD ["python", "train/train_sft_lora.py"]

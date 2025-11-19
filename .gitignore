@@ -1,0 +1,117 @@
+# Email Style PoC .gitignore
+
+# ============================================================================
+# Environment & Secrets
+# ============================================================================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# ============================================================================
+# Python
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# ============================================================================
+# Data & Models (IMPORTANT: Don't commit sensitive data or large models)
+# ============================================================================
+# Raw data may contain PII
+data/raw/**
+!data/raw/.gitkeep
+
+# Processed data
+data/processed/**
+!data/processed/.gitkeep
+
+# Model artifacts and checkpoints (can be very large)
+artifacts/**
+!artifacts/lora_sft/.gitkeep
+!artifacts/lora_dpo/.gitkeep
+
+# HuggingFace cache
+cache/
+.cache/
+
+# Model downloads
+models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# ============================================================================
+# Training & Logs
+# ============================================================================
+logs/
+*.log
+tensorboard/
+wandb/
+runs/
+outputs/
+checkpoints/
+
+# ============================================================================
+# IDE & Editors
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================================
+# Jupyter
+# ============================================================================
+.ipynb_checkpoints/
+*.ipynb
+
+# ============================================================================
+# Docker
+# ============================================================================
+.dockerignore
+
+# ============================================================================
+# Testing
+# ============================================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ============================================================================
+# OS
+# ============================================================================
+Thumbs.db
+.DS_Store

@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+python-multipart
+torch
+transformers
+peft
+bitsandbytes
+trl
+accelerate
+datasets
+scikit-learn
+pandas
+openai
+python-dotenv
+pytest
+httpx
